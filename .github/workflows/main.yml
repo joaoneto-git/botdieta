@@ -49,6 +49,7 @@ jobs:
             
             # Iniciar novo processo em segundo plano
             nohup node dietaBot.js &
+            disown
             
             echo "✅ Deploy concluído com sucesso!"
             exit 1
