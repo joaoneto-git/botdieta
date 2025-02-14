@@ -39,6 +39,8 @@ jobs:
             # Instalar dependências
             npm install
             
+            sudo su
+            
             # Parar processo antigo
             pkill -f "node bot.js" || echo "Nenhum processo antigo encontrado."
             
