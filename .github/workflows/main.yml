@@ -22,6 +22,7 @@ jobs:
           # Conectar e executar comandos no servidor
           ssh -i private_key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             set -e
+            sudo su
             
             # Definir variáveis
             export BOT_TOKEN=${{ secrets.BOT_TOKEN }}
