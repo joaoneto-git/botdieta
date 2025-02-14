@@ -22,12 +22,14 @@ jobs:
           # Conectar e executar comandos no servidor
           ssh -i private_key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             set -e
-
+            
             # Definir variáveis
             export BOT_TOKEN=${{ secrets.BOT_TOKEN }}
             REPO_DIR=~/dieta30dias/botdieta/ # Ajuste o diretório do projeto
             PROCESS_NAME="node dietaBot.js"
 
+            git config --global --add safe.directory /home/***/dieta30dias/botdieta
+            
             # Atualizar repositório
             cd $REPO_DIR
             git pull origin main
