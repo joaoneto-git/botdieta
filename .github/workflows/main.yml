@@ -43,7 +43,7 @@ jobs:
             
             echo "stage 2"
             # Parar processo antigo
-            sudo pkill -f "node dietaBot.js" || echo "Nenhum processo antigo encontrado."
+            #sudo pkill -f "node dietaBot.js" || echo "Nenhum processo antigo encontrado."
             echo "stage 3"
             export BOT_TOKEN=${{ secrets.BOT_TOKEN }}
             
