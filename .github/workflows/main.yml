@@ -28,7 +28,6 @@ jobs:
             sudo su
             
             # Atualizar o repositório
-            git config --global --add safe.directory /home/***/dieta30dias/botdieta
             git pull origin main
             
             # Instalar dependências
@@ -36,6 +35,8 @@ jobs:
             
             # Parar processo antigo
             pkill -f "node bot.js" || echo "Nenhum processo antigo encontrado."
+            
+            export BOT_TOKEN=${{ secrets.BOT_TOKEN }}
             
             # Iniciar novo processo em segundo plano
             nohup node dietaBot.js & echo $! 
