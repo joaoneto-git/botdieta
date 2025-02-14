@@ -26,7 +26,7 @@ jobs:
             
             # Definir variáveis
             export BOT_TOKEN=${{ secrets.BOT_TOKEN }}
-            REPO_DIR=~/dieta30dias/botdieta # Ajuste o diretório do projeto
+            REPO_DIR=/home/${{ secrets.SSH_USER }}/dieta30dias/botdieta # Ajuste o diretório do projeto
             PROCESS_NAME="node dietaBot.js" 
 
             sudo su
