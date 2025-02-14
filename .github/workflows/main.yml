@@ -45,7 +45,7 @@ jobs:
 
             # Iniciar novo processo em background
             echo "Iniciando novo processo..."
-            nohup env BOT_TOKEN=$BOT_TOKEN node dietaBot.js &
+            BOT_TOKEN=$BOT_TOKEN  nohup node dietaBot.js &
 
             echo "Deploy concluído!"
           EOF
