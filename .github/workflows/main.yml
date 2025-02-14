@@ -1,54 +1,41 @@
-name: Deploy Bot
+name: Deploy BotDieta
 
 on:
   push:
     branches:
-      - main  # Alterar se necessário
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do código
+      - name: Checkout do repositório
         uses: actions/checkout@v3
 
-      - name: Configurar SSH e atualizar servidor
-        run: |
-          # Configurar chave SSH
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
-          chmod 600 private_key
-
-          # Conectar e executar comandos no servidor
-          ssh -i private_key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            set -e
-            sudo yum update -y
+      - name: Acessar servidor via SSH e atualizar o projeto
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            echo "🚀 Conectado ao servidor!"
             
-            # Definir variáveis
-            export BOT_TOKEN=${{ secrets.BOT_TOKEN }}
-            REPO_DIR=dieta30dias/botdieta/ # Ajuste o diretório do projeto
-            PROCESS_NAME="node dietaBot.js" 
-
-            sudo su
+            # Acessar o diretório do projeto
+            cd /home/***/dieta30dias/botdieta || exit 1
             
-            # Atualizar repositório
-            cd $REPO_DIR
+            # Atualizar o repositório
+            git config --global --add safe.directory /home/***/dieta30dias/botdieta
             git pull origin main
-            npm install  # Instalar dependências
-
-            # Encontrar e matar o processo antigo
-            PID=$(pgrep -f "$PROCESS_NAME" || echo "")
-            if [ ! -z "$PID" ]; then
-              echo "Matando processo antigo ($PID)..."
-              kill $PID
-            fi
-
-            # Iniciar novo processo em background
-            echo "Iniciando novo processo..."
-            nohup $PROCESS_NAME &
-
-            echo "Deploy concluído!"
-          EOF
-
-          # Remover chave SSH temporária
-          rm -f private_key
+            
+            # Instalar dependências
+            npm install
+            
+            # Parar processo antigo
+            pkill -f "node bot.js" || echo "Nenhum processo antigo encontrado."
+            
+            # Iniciar novo processo em segundo plano
+            nohup node dietaBot.js & echo $! 
+            
+            echo "✅ Deploy concluído com sucesso!"
