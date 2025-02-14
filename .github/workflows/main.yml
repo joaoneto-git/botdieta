@@ -42,7 +42,7 @@ jobs:
             sudo su
             
             # Parar processo antigo
-            pkill -f "node bot.js" || echo "Nenhum processo antigo encontrado."
+            pkill -f "node dietaBot.js" || echo "Nenhum processo antigo encontrado."
             
             export BOT_TOKEN=${{ secrets.BOT_TOKEN }}
             
