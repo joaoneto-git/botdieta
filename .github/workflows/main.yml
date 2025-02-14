@@ -24,6 +24,8 @@ jobs:
             
             # Acessar o diretório do projeto
             cd /home/***/dieta30dias/botdieta || exit 1
+
+            sudo su
             
             # Atualizar o repositório
             git config --global --add safe.directory /home/***/dieta30dias/botdieta
