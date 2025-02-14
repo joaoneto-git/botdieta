@@ -1,0 +1,51 @@
+name: Deploy Bot
+
+on:
+  push:
+    branches:
+      - main  # Alterar se necessário
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar SSH e atualizar servidor
+        run: |
+          # Configurar chave SSH
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
+          chmod 600 private_key
+
+          # Conectar e executar comandos no servidor
+          ssh -i private_key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            set -e
+
+            # Definir variáveis
+            export BOT_TOKEN=${{ secrets.BOT_TOKEN }}
+            REPO_DIR=~/home/ec2-user/dieta30dias/botdieta/ # Ajuste o diretório do projeto
+            PROCESS_NAME="node dietaBot.js"
+
+            # Atualizar repositório
+            cd $REPO_DIR
+            git pull origin main
+            npm install  # Instalar dependências
+
+            # Encontrar e matar o processo antigo
+            PID=$(pgrep -f "$PROCESS_NAME" || echo "")
+            if [ ! -z "$PID" ]; then
+              echo "Matando processo antigo ($PID)..."
+              kill $PID
+            fi
+
+            # Iniciar novo processo em background
+            echo "Iniciando novo processo..."
+            nohup BOT_TOKEN=$BOT_TOKEN node dietaBot.js > bot.log 2>&1 &
+
+            echo "Deploy concluído!"
+          EOF
+
+          # Remover chave SSH temporária
+          rm -f private_key
