@@ -23,6 +23,10 @@ jobs:
           ssh -i private_key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             set -e
             sudo su
+            sudo yum update -y
+
+            # Instalar Node.js e npm
+            sudo yum install -y nodejs npm
             
             # Definir variáveis
             export BOT_TOKEN=${{ secrets.BOT_TOKEN }}
