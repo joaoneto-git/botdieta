@@ -24,9 +24,6 @@ jobs:
             set -e
             sudo su
             sudo yum update -y
-
-            # Instalar Node.js e npm
-            sudo yum install -y nodejs npm
             
             # Definir variáveis
             export BOT_TOKEN=${{ secrets.BOT_TOKEN }}
@@ -47,7 +44,7 @@ jobs:
 
             # Iniciar novo processo em background
             echo "Iniciando novo processo..."
-            BOT_TOKEN=$BOT_TOKEN  nohup node dietaBot.js &
+            nohup $PROCESS_NAME &
 
             echo "Deploy concluído!"
           EOF
