@@ -21,7 +21,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             echo "🚀 Conectado ao servidor!"
-            
+            sudo reboot
             # Acessar o diretório do projeto
             cd /home/***/dieta30dias/botdieta || exit 1
 
@@ -45,10 +45,11 @@ jobs:
             # Parar processo antigo
             sudo pkill -f "node dietaBot.js" || echo "Nenhum processo antigo encontrado."
             echo "stage 3"
-            
-            export BOT_TOKEN=${{ secrets.BOT_TOKEN }}
+             export BOT_TOKEN=${{ secrets.BOT_TOKEN }}
             
             # Iniciar novo processo em segundo plano
             nohup node dietaBot.js &
+            
+           
             
             echo "✅ Deploy concluído com sucesso!"
