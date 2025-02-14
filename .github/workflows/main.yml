@@ -40,9 +40,10 @@ jobs:
             npm install
             
             sudo su
-            
+            echo "stage 2"
             # Parar processo antigo
             pkill -f "node dietaBot.js" || echo "Nenhum processo antigo encontrado."
+            echo "stage 3"
             
             export BOT_TOKEN=${{ secrets.BOT_TOKEN }}
             
