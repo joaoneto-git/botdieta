@@ -24,8 +24,10 @@ jobs:
             
             # Acessar o diretório do projeto
             cd /home/***/dieta30dias/botdieta || exit 1
-            echo "stagio 2"
+            
             sudo su
+            ls
+            echo "stagio 2"  
             
             # Atualizar o repositório
             git pull origin main
@@ -39,6 +41,6 @@ jobs:
             export BOT_TOKEN=${{ secrets.BOT_TOKEN }}
             
             # Iniciar novo processo em segundo plano
-            nohup node dietaBot.js & echo $! 
+            nohup node dietaBot.js &
             
             echo "✅ Deploy concluído com sucesso!"
