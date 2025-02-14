@@ -29,7 +29,7 @@ jobs:
             REPO_DIR=~/dieta30dias/botdieta/ # Ajuste o diretório do projeto
             PROCESS_NAME="node dietaBot.js"
 
-            git config --global --add safe.directory /home/***/dieta30dias/botdieta
+            git config --global --add safe.directory /dieta30dias/botdieta
             
             # Atualizar repositório
             cd $REPO_DIR
@@ -45,7 +45,7 @@ jobs:
 
             # Iniciar novo processo em background
             echo "Iniciando novo processo..."
-            nohup BOT_TOKEN=$BOT_TOKEN node dietaBot.js > bot.log 2>&1 &
+            nohup BOT_TOKEN=$BOT_TOKEN node dietaBot.js &
 
             echo "Deploy concluído!"
           EOF
