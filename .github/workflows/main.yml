@@ -24,7 +24,7 @@ jobs:
             
             # Acessar o diretório do projeto
             cd /home/***/dieta30dias/botdieta || exit 1
-
+            echo "stagio 2"
             sudo su
             
             # Atualizar o repositório
