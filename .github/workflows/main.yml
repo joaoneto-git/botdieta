@@ -24,8 +24,14 @@ jobs:
             
             # Acessar o diretório do projeto
             cd /home/***/dieta30dias/botdieta || exit 1
-            
+
+            sudo chown -R ec2-user:ec2-user /home/ec2-user/dieta30dias/botdieta
+            sudo chmod -R 755 /home/ec2-user/dieta30dias/botdieta/.git
             sudo chown -R ec2-user:ec2-user /home/ec2-user/.npm
+            npm cache clean --force
+            sudo chmod 644 /home/ec2-user/dieta30dias/botdieta/package-lock.json
+            git config --global --add safe.directory /home/ec2-user/dieta30dias/botdieta
+
             
             # Atualizar o repositório
             git pull origin main
